@@ -22,26 +22,78 @@ create table public.profiles (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+-- Gestão de Anúncios (Ads)
+create table public.advertisements (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  client_name text,
+  image_url text not null,
+  target_url text,
+  position text, -- e.g., 'home_top', 'article_sidebar'
+  is_active boolean default true,
+  views_count integer default 0,
+  clicks_count integer default 0,
+  start_date timestamp with time zone,
+  end_date timestamp with time zone,
+  created_at timestamp with time zone default now()
+);
+
+-- Acesso de Criadores Externos (External Article Creators)
+create table public.external_api_keys (
+  id uuid default gen_random_uuid() primary key,
+  creator_name text not null,
+  api_key uuid default gen_random_uuid() not null unique,
+  description text,
+  is_active boolean default true,
+  created_at timestamp with time zone default now()
+);
+
+-- Gestão de Newsletter
+create table public.newsletter_subscribers (
+  id uuid default gen_random_uuid() primary key,
+  email text unique not null,
+  full_name text,
+  is_active boolean default true,
+  created_at timestamp with time zone default now()
+);
+
+-- Sugestão de Pautas (Hot Topics)
+create table public.article_suggestions (
+  id uuid default gen_random_uuid() primary key,
+  topic text not null,
+  source_api text, -- e.g., 'Google Trends', 'Twitter'
+  score decimal, -- trending score
+  status text default 'pending', -- pending, approved, writing, published
+  created_at timestamp with time zone default now()
+);
+
 -- Habilitar Row Level Security
 alter table public.profiles enable row level security;
+alter table public.advertisements enable row level security;
+alter table public.external_api_keys enable row level security;
+alter table public.newsletter_subscribers enable row level security;
+alter table public.article_suggestions enable row level security;
 
--- Políticas de Acesso
-create policy "Public profiles are viewable by everyone." on public.profiles
-  for select using (true);
+-- Políticas de Acesso Simplificadas (Admin Only for management tables)
+create policy "Public profiles are viewable by everyone." on public.profiles for select using (true);
+create policy "Users can update own profile." on public.profiles for update using (auth.uid() = id);
 
-create policy "Users can insert their own profile." on public.profiles
-  for insert with check (auth.uid() = id);
+create policy "Anyone can view active ads." on public.advertisements for select using (is_active = true);
+create policy "Admins can manage ads." on public.advertisements using (auth.jwt() ->> 'role' = 'admin');
 
-create policy "Users can update own profile." on public.profiles
-  for update using (auth.uid() = id);
+create policy "Admins can manage external keys." on public.external_api_keys using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Anyone can subscribe to newsletter." on public.newsletter_subscribers for insert with check (true);
+create policy "Admins can manage newsletter." on public.newsletter_subscribers using (auth.jwt() ->> 'role' = 'admin');
 ```
 
-## 2. Implementação no Frontend (Amanhã)
+## 2. Implementação no Frontend (Novos Módulos)
 
-1.  **Migrar Dados Fixos**: Mover `ARTICLES` de `constants.ts` para a tabela `articles`.
-2.  **Auth UI**: Criar modal de Sign In com Google/Email na página de Perfil.
-3.  **Realtime Check-in**: Substituir o `localStorage` do check-in por um update na tabela `profiles`.
-4.  **BalcãoUSA CRUD**: Implementar o `insert` de novos anúncios.
+1.  **Gestão de Anúncios**: Componente para upload e monitoramento de banners na Home e Artigos.
+2.  **External Creator API**: Interface para gerenciar tokens de acesso para sistemas de IA ou criadores externos postarem via portal.
+3.  **Newsletter Center**: Captura de leads e monitoramento da base de inscritos.
+4.  **Assuntos Quentes (Agenda Creator)**: Dashboard que consome APIs de tendências para sugerir pautas ao time editorial.
+5.  **Refatoração MVP**: Migração de lógica embutida no `App.tsx` para componentes de arquivo único.
 
 ## 3. Estrutura de Pastas Preparada
 

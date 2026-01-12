@@ -60,6 +60,15 @@ export interface CommunityEvent {
   category: 'Social' | 'Cultura' | 'Negócios' | 'Religioso';
 }
 
+export interface Author {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  imageUrl: string;
+  articlesCount: number;
+}
+
 export interface UserProfile extends UserStats {
   id: string;
   email?: string;
