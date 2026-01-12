@@ -97,6 +97,17 @@ create table public.events (
   created_at timestamp with time zone default now()
 );
 
+-- Balcão USA (Anúncios)
+create table public.balcao_posts (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  description text,
+  category text,
+  author text,
+  contact text,
+  created_at timestamp with time zone default now()
+);
+
 -- Sugestão de Pautas (Hot Topics)
 create table public.article_suggestions (
   id uuid default gen_random_uuid() primary key,
@@ -142,6 +153,7 @@ alter table public.celebrity_stories enable row level security;
 alter table public.articles enable row level security;
 alter table public.magazines enable row level security;
 alter table public.events enable row level security;
+alter table public.balcao_posts enable row level security;
 
 -- Políticas de Acesso Simplificadas (Admin Only for management tables)
 create policy "Public profiles are viewable by everyone." on public.profiles for select using (true);
@@ -169,6 +181,9 @@ create policy "Admins can manage magazines." on public.magazines using (auth.jwt
 
 create policy "Events are viewable by everyone." on public.events for select using (true);
 create policy "Admins can manage events." on public.events using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Balcao posts are viewable by everyone." on public.balcao_posts for select using (true);
+create policy "Anyone can insert balcao posts." on public.balcao_posts for insert with check (true);
 ```
 
 ## 2. Implementação no Frontend (Novos Módulos)

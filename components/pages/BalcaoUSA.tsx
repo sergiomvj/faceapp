@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BALCAO_MOCK } from '../../constants';
+import { BALCAO_MOCK as INITIAL_POSTS } from '../../constants';
 import { BalcaoPost } from '../../types';
-
-const getBalcaoPosts = (): BalcaoPost[] => {
-    const local = JSON.parse(localStorage.getItem('balcaoPosts') || '[]');
-    return [...BALCAO_MOCK, ...local];
-};
+import { supabase } from '../../services/supabaseClient';
 
 export const BalcaoUSA: React.FC = () => {
-    const [posts] = useState(getBalcaoPosts());
+    const [posts, setPosts] = useState<BalcaoPost[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    const fetchPosts = async () => {
+        const { data } = await supabase
+            .from('balcao_posts')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (data && data.length > 0) {
+            setPosts(data as any);
+        } else {
+            setPosts(INITIAL_POSTS);
+        }
+        setLoading(false);
+    };
+
+    if (loading) return <div className="p-20 text-center animate-pulse">Carregando balcão...</div>;
+
     return (
         <main className="w-full max-w-2xl mx-auto p-4 pb-32 flex flex-col gap-6 animate-in fade-in duration-500">
             <div className="flex items-center justify-between">

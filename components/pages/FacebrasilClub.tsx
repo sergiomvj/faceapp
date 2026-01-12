@@ -1,39 +1,44 @@
 import React, { useState } from 'react';
-import { UserStats } from '../../types';
-
-const getUserStats = (): UserStats => {
-    const defaults: UserStats = { points: 200, facetas: 5, level: 'Bronze', articlesRead: [], lastCheckIn: '' };
-    return JSON.parse(localStorage.getItem('userStats') || JSON.stringify(defaults));
-};
-
-const saveUserStats = (stats: UserStats) => {
-    if (stats.points > 2000) stats.level = 'Diamante';
-    else if (stats.points > 1000) stats.level = 'Ouro';
-    else if (stats.points > 300) stats.level = 'Prata';
-    else stats.level = 'Bronze';
-    localStorage.setItem('userStats', JSON.stringify(stats));
-};
+import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../services/supabaseClient';
 
 export const FacebrasilClub: React.FC = () => {
-    const [stats, setStats] = useState(getUserStats());
+    const { user, refreshProfile } = useAuth();
     const [converting, setConverting] = useState(false);
     const CONVERSION_RATE = 10;
 
-    const handleConvert = () => {
-        if (stats.points < CONVERSION_RATE) {
+    if (!user) return (
+        <main className="w-full max-w-2xl mx-auto p-4 flex flex-col items-center justify-center min-h-[60vh] gap-4">
+            <span className="material-symbols-outlined text-6xl text-slate-300">lock</span>
+            <h2 className="text-2xl font-display font-bold">Área Exclusiva</h2>
+            <p className="text-slate-500 text-center text-sm">Faça login para converter seus pontos e ver seus benefícios.</p>
+        </main>
+    );
+
+    const handleConvert = async () => {
+        if (user.points < CONVERSION_RATE) {
             alert("Mínimo de 10 pontos para converter.");
             return;
         }
         setConverting(true);
-        setTimeout(() => {
-            const newFacetas = Math.floor(stats.points / CONVERSION_RATE);
-            const remainingPoints = stats.points % CONVERSION_RATE;
-            const newStats: UserStats = { ...stats, facetas: stats.facetas + newFacetas, points: remainingPoints };
-            saveUserStats(newStats);
-            setStats(newStats);
-            setConverting(false);
+
+        const newFacetas = Math.floor(user.points / CONVERSION_RATE);
+        const remainingPoints = user.points % CONVERSION_RATE;
+
+        const { error } = await supabase
+            .from('profiles')
+            .update({
+                points: remainingPoints,
+                facetas: user.facetas + newFacetas
+            })
+            .eq('id', user.id);
+
+        if (error) alert(error.message);
+        else {
+            await refreshProfile();
             alert(`Sucesso! Você recebeu ${newFacetas} FACETAS.`);
-        }, 1200);
+        }
+        setConverting(false);
     };
 
     return (
@@ -41,14 +46,14 @@ export const FacebrasilClub: React.FC = () => {
             <h2 className="text-3xl font-display font-bold italic text-yellow-600">Club de Vantagens</h2>
             <div className="bg-slate-900 text-white rounded-[40px] p-8 shadow-2xl relative overflow-hidden">
                 <div className="relative z-10">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-yellow-500 mb-1">Status: Nível {stats.level}</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-yellow-500 mb-1">Status: Nível {user.level}</p>
                     <div className="flex justify-between items-end">
                         <div>
                             <p className="text-xs opacity-60">Saldos Digitais</p>
-                            <h3 className="text-4xl font-black text-yellow-400">{stats.facetas} <small className="text-lg">FCT</small></h3>
+                            <h3 className="text-4xl font-black text-yellow-400">{user.facetas} <small className="text-lg">FCT</small></h3>
                         </div>
                         <div className="text-right">
-                            <p className="text-xl font-bold">{stats.points} <small className="text-xs opacity-60">PTS</small></p>
+                            <p className="text-xl font-bold">{user.points} <small className="text-xs opacity-60">PTS</small></p>
                         </div>
                     </div>
                     <button onClick={handleConvert} disabled={converting} className="w-full mt-6 py-4 bg-yellow-500 text-slate-900 font-bold rounded-2xl text-sm transition-all active:scale-95 disabled:opacity-50">
