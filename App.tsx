@@ -44,9 +44,14 @@ const getEvents = (): CommunityEvent[] => {
 // --- Components ---
 
 const Logo: React.FC = () => (
-  <span className="text-2xl font-sans font-extrabold tracking-tighter text-primary">
-    Facebrasil<span className="text-purple-600">.app</span>
-  </span>
+  <div className="flex items-center gap-1.5">
+    <div className="size-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 rotate-3 group-hover:rotate-0 transition-transform">
+      <span className="material-symbols-outlined text-white text-lg filled">bolt</span>
+    </div>
+    <span className="text-2xl font-sans font-black tracking-tighter text-slate-900 dark:text-white">
+      Facebrasil<span className="text-primary">.app</span>
+    </span>
+  </div>
 );
 
 const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) => {
@@ -87,27 +92,32 @@ const BottomNav: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed bottom-0 w-full bg-surface-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 z-50">
-      <div className="flex items-center justify-around h-16 max-w-2xl mx-auto px-2">
-        <Link to="/" className={`flex flex-col items-center gap-1 w-14 ${isActive('/') ? 'text-primary' : 'text-slate-400'}`}>
-          <span className={`material-symbols-outlined text-[24px] ${isActive('/') ? 'filled' : ''}`}>home</span>
-          <span className="text-[9px] font-bold uppercase tracking-widest">Início</span>
+    <nav className="fixed bottom-0 w-full bg-surface-light/80 dark:bg-background-dark/80 backdrop-blur-xl border-t border-slate-200/50 dark:border-slate-800/50 z-50">
+      <div className="flex items-center justify-around h-20 max-w-2xl mx-auto px-4 pb-4">
+        <Link to="/" className={`relative flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/') ? 'text-primary scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+          <span className={`material-symbols-outlined text-[26px] ${isActive('/') ? 'filled' : ''}`}>home</span>
+          <span className="text-[9px] font-black uppercase tracking-[1px]">Início</span>
+          {isActive('/') && <div className="absolute -top-1 w-1 h-1 bg-primary rounded-full animate-pulse" />}
         </Link>
-        <Link to="/news" className={`flex flex-col items-center gap-1 w-14 ${isActive('/news') ? 'text-primary' : 'text-slate-400'}`}>
-          <span className={`material-symbols-outlined text-[24px] ${isActive('/news') ? 'filled' : ''}`}>newspaper</span>
-          <span className="text-[9px] font-bold uppercase tracking-widest">News</span>
+        <Link to="/news" className={`relative flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/news') ? 'text-primary scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+          <span className={`material-symbols-outlined text-[26px] ${isActive('/news') ? 'filled' : ''}`}>newspaper</span>
+          <span className="text-[9px] font-black uppercase tracking-[1px]">News</span>
+          {isActive('/news') && <div className="absolute -top-1 w-1 h-1 bg-primary rounded-full animate-pulse" />}
         </Link>
-        <Link to="/balcao" className={`flex flex-col items-center gap-1 w-14 ${isActive('/balcao') ? 'text-green-600' : 'text-slate-400'}`}>
-          <span className={`material-symbols-outlined text-[24px] ${isActive('/balcao') ? 'filled' : ''}`}>dashboard_customize</span>
-          <span className="text-[9px] font-bold uppercase tracking-widest">Balcão</span>
+        <Link to="/balcao" className={`relative flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/balcao') ? 'text-emerald-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+          <span className={`material-symbols-outlined text-[26px] ${isActive('/balcao') ? 'filled' : ''}`}>dashboard_customize</span>
+          <span className="text-[9px] font-black uppercase tracking-[1px]">Balcão</span>
+          {isActive('/balcao') && <div className="absolute -top-1 w-1 h-1 bg-emerald-600 rounded-full animate-pulse" />}
         </Link>
-        <Link to="/clube" className={`flex flex-col items-center gap-1 w-14 ${isActive('/clube') ? 'text-yellow-500' : 'text-slate-400'}`}>
-          <span className={`material-symbols-outlined text-[24px] ${isActive('/clube') ? 'filled' : ''}`}>workspace_premium</span>
-          <span className="text-[9px] font-bold uppercase tracking-widest">Club</span>
+        <Link to="/clube" className={`relative flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/clube') ? 'text-yellow-500 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+          <span className={`material-symbols-outlined text-[26px] ${isActive('/clube') ? 'filled' : ''}`}>workspace_premium</span>
+          <span className="text-[9px] font-black uppercase tracking-[1px]">Club</span>
+          {isActive('/clube') && <div className="absolute -top-1 w-1 h-1 bg-yellow-500 rounded-full animate-pulse" />}
         </Link>
-        <Link to="/profile" className={`flex flex-col items-center gap-1 w-14 ${isActive('/profile') ? 'text-primary' : 'text-slate-400'}`}>
-          <span className={`material-symbols-outlined text-[24px] ${isActive('/profile') ? 'filled' : ''}`}>person</span>
-          <span className="text-[9px] font-bold uppercase tracking-widest">Perfil</span>
+        <Link to="/profile" className={`relative flex flex-col items-center gap-1 transition-all duration-300 ${isActive('/profile') ? 'text-primary scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+          <span className={`material-symbols-outlined text-[26px] ${isActive('/profile') ? 'filled' : ''}`}>person</span>
+          <span className="text-[9px] font-black uppercase tracking-[1px]">Perfil</span>
+          {isActive('/profile') && <div className="absolute -top-1 w-1 h-1 bg-primary rounded-full animate-pulse" />}
         </Link>
       </div>
     </nav>
@@ -198,13 +208,13 @@ const AgendaEventos: React.FC = () => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
           <form onSubmit={handleAddEvent} className="bg-white dark:bg-slate-800 w-full max-w-sm rounded-[40px] p-8 flex flex-col gap-4">
             <h4 className="text-2xl font-bold font-display italic">Novo Evento</h4>
-            <input required placeholder="Nome do Evento" className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({...newEvent, title: e.target.value})} />
+            <input required placeholder="Nome do Evento" className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({ ...newEvent, title: e.target.value })} />
             <div className="flex gap-2">
-              <input type="date" required className="flex-1 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({...newEvent, date: e.target.value})} />
-              <input type="time" required className="w-28 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({...newEvent, time: e.target.value})} />
+              <input type="date" required className="flex-1 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({ ...newEvent, date: e.target.value })} />
+              <input type="time" required className="w-28 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({ ...newEvent, time: e.target.value })} />
             </div>
-            <input required placeholder="Local (Cidade, Estado)" className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({...newEvent, location: e.target.value})} />
-            <select className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({...newEvent, category: e.target.value as any})}>
+            <input required placeholder="Local (Cidade, Estado)" className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({ ...newEvent, location: e.target.value })} />
+            <select className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 outline-none" onChange={e => setNewEvent({ ...newEvent, category: e.target.value as any })}>
               <option value="Social">Social</option>
               <option value="Cultura">Cultura</option>
               <option value="Negócios">Negócios</option>
@@ -240,7 +250,7 @@ const Categories: React.FC = () => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         {categoryConfig.map(cat => (
-          <button 
+          <button
             key={cat.name}
             onClick={() => navigate(`/search?category=${cat.name}`)}
             className="p-8 rounded-[40px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-center flex flex-col items-center gap-4 hover:border-primary transition-all group shadow-sm active:scale-95"
@@ -388,8 +398,8 @@ const BalcaoUSA: React.FC = () => {
             <h4 className="font-display font-bold text-xl leading-tight">{post.title}</h4>
             <p className="text-sm opacity-80 leading-relaxed line-clamp-2">{post.description}</p>
             <div className="flex justify-between items-center mt-3 pt-4 border-t border-slate-50 dark:border-slate-800">
-               <span className="text-[10px] font-bold opacity-60">Por {post.author}</span>
-               <button onClick={() => alert(`Contato: ${post.contact}`)} className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-[10px] font-bold px-4 py-2 rounded-full">Ver Contato</button>
+              <span className="text-[10px] font-bold opacity-60">Por {post.author}</span>
+              <button onClick={() => alert(`Contato: ${post.contact}`)} className="bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white text-[10px] font-bold px-4 py-2 rounded-full">Ver Contato</button>
             </div>
           </div>
         ))}
@@ -404,18 +414,19 @@ const Home: React.FC = () => {
   const quickHits = useMemo(() => ARTICLES.filter(a => !a.isFeatured).slice(0, 6), []);
 
   return (
-    <main className="w-full max-w-2xl mx-auto flex flex-col gap-6 pb-24 animate-in fade-in duration-500">
-      <ArticleCard article={featuredArticle} variant="featured" onClick={(id) => navigate(`/article/${id}`)} />
-      
-      {/* Fast News Stories Section - Ajustado padding lateral para px-4 para alinhar com os outros elementos */}
-      <section className="flex flex-col gap-3">
-        <div className="px-4 flex justify-between items-center">
+    <main className="w-full max-w-2xl mx-auto flex flex-col gap-8 pb-32 animate-in fade-in duration-700">
+      <section className="px-4 pt-4">
+        <ArticleCard article={featuredArticle} variant="featured" onClick={(id) => navigate(`/article/${id}`)} />
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <div className="px-5 flex justify-between items-center">
           <h3 className="text-xl font-display font-bold italic">Destaques Rápidos</h3>
-          <Link to="/news" className="text-[10px] font-black uppercase text-primary tracking-widest">Ver Mais</Link>
+          <Link to="/news" className="text-[10px] font-black uppercase text-primary tracking-[2px] hover:underline underline-offset-4 transition-all">Ver Mais</Link>
         </div>
-        <div className="flex gap-4 overflow-x-auto px-4 pb-2 no-scrollbar snap-x snap-mandatory">
+        <div className="flex gap-4 overflow-x-auto px-5 pb-4 no-scrollbar snap-x snap-mandatory">
           {quickHits.map(article => (
-            <div key={article.id} className="w-32 shrink-0 snap-start">
+            <div key={article.id} className="w-36 shrink-0 snap-start">
               <ArticleCard article={article} variant="story" onClick={(id) => navigate(`/article/${id}`)} />
             </div>
           ))}
@@ -424,39 +435,71 @@ const Home: React.FC = () => {
 
       <section className="px-4 grid grid-cols-2 gap-4">
         {/* Agenda */}
-        <Link to="/agenda" className="relative h-36 rounded-[32px] overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-700 p-6 text-white shadow-lg transition-transform active:scale-95">
-           <h3 className="text-lg font-bold font-display italic leading-tight">Agenda de Eventos</h3>
-           <p className="text-[10px] opacity-70">Encontros da semana</p>
-           <span className="absolute bottom-4 right-4 material-symbols-outlined text-4xl opacity-20 filled">calendar_month</span>
+        <Link to="/agenda" className="group relative h-40 rounded-[32px] overflow-hidden bg-gradient-to-br from-indigo-600 to-purple-800 p-6 text-white shadow-xl transition-all active:scale-95">
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div>
+              <h3 className="text-lg font-bold font-display italic leading-tight">Agenda de Eventos</h3>
+              <p className="text-[10px] opacity-70 font-medium">Os melhores encontros</p>
+            </div>
+            <div className="bg-white/20 w-fit p-1.5 rounded-xl backdrop-blur-md">
+              <span className="material-symbols-outlined text-[20px] block">trending_flat</span>
+            </div>
+          </div>
+          <span className="absolute -bottom-4 -right-4 material-symbols-outlined text-7xl opacity-10 filled rotate-12 group-hover:scale-110 transition-transform duration-500">calendar_month</span>
         </Link>
-        
+
         {/* Club */}
-        <Link to="/clube" className="relative h-36 rounded-[32px] overflow-hidden bg-gradient-to-br from-yellow-500 to-amber-700 p-6 text-white shadow-lg transition-transform active:scale-95">
-           <h3 className="text-lg font-bold font-display italic leading-tight text-slate-900">Club de Vantagens</h3>
-           <p className="text-[10px] opacity-70 text-slate-900">Minhas Facetas</p>
-           <span className="absolute bottom-4 right-4 material-symbols-outlined text-4xl opacity-20 filled text-slate-900">toll</span>
+        <Link to="/clube" className="group relative h-40 rounded-[32px] overflow-hidden bg-gradient-to-br from-yellow-400 to-amber-600 p-6 text-white shadow-xl transition-all active:scale-95">
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div className="text-slate-900">
+              <h3 className="text-lg font-bold font-display italic leading-tight">Club Facebrasil</h3>
+              <p className="text-[10px] opacity-70 font-black uppercase tracking-widest">Minhas Facetas</p>
+            </div>
+            <div className="bg-slate-900/10 w-fit p-1.5 rounded-xl backdrop-blur-md text-slate-900">
+              <span className="material-symbols-outlined text-[20px] block">toll</span>
+            </div>
+          </div>
+          <span className="absolute -bottom-4 -right-4 material-symbols-outlined text-7xl opacity-10 filled -rotate-12 group-hover:scale-110 transition-transform duration-500 text-slate-900">stars</span>
         </Link>
 
         {/* BalcaoUSA */}
-        <Link to="/balcao" className="relative h-36 rounded-[32px] overflow-hidden bg-gradient-to-br from-emerald-500 to-teal-700 p-6 text-white shadow-lg transition-transform active:scale-95">
-           <h3 className="text-lg font-bold font-display italic leading-tight">BalcãoUSA</h3>
-           <p className="text-[10px] opacity-70">Negócios e oportunidades</p>
-           <span className="absolute bottom-4 right-4 material-symbols-outlined text-4xl opacity-20 filled">dashboard_customize</span>
+        <Link to="/balcao" className="group relative h-40 rounded-[32px] overflow-hidden bg-gradient-to-br from-emerald-500 to-teal-700 p-6 text-white shadow-xl transition-all active:scale-95">
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div>
+              <h3 className="text-lg font-bold font-display italic leading-tight">BalcãoUSA</h3>
+              <p className="text-[10px] opacity-70 font-medium">Oportunidades únicas</p>
+            </div>
+            <div className="bg-white/20 w-fit p-1.5 rounded-xl backdrop-blur-md">
+              <span className="material-symbols-outlined text-[20px] block">campaign</span>
+            </div>
+          </div>
+          <span className="absolute -bottom-4 -right-4 material-symbols-outlined text-7xl opacity-10 filled rotate-6 group-hover:scale-110 transition-transform duration-500">dashboard_customize</span>
         </Link>
 
         {/* News */}
-        <Link to="/news" className="relative h-36 rounded-[32px] overflow-hidden bg-gradient-to-br from-sky-500 to-blue-700 p-6 text-white shadow-lg transition-transform active:scale-95">
-           <h3 className="text-lg font-bold font-display italic leading-tight">News</h3>
-           <p className="text-[10px] opacity-70">Resumo de notícias</p>
-           <span className="absolute bottom-4 right-4 material-symbols-outlined text-4xl opacity-20 filled">newspaper</span>
+        <Link to="/news" className="group relative h-40 rounded-[32px] overflow-hidden bg-gradient-to-br from-sky-500 to-blue-700 p-6 text-white shadow-xl transition-all active:scale-95">
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div>
+              <h3 className="text-lg font-bold font-display italic leading-tight">Mundo News</h3>
+              <p className="text-[10px] opacity-70 font-medium">Giro de notícias</p>
+            </div>
+            <div className="bg-white/20 w-fit p-1.5 rounded-xl backdrop-blur-md">
+              <span className="material-symbols-outlined text-[20px] block">newspaper</span>
+            </div>
+          </div>
+          <span className="absolute -bottom-4 -right-4 material-symbols-outlined text-7xl opacity-10 filled -rotate-6 group-hover:scale-110 transition-transform duration-500">public</span>
         </Link>
       </section>
 
-      <section className="px-4 flex flex-col gap-4">
-        <h3 className="text-xl font-display font-bold italic border-b border-slate-100 dark:border-slate-800 pb-2">Matérias Recentes</h3>
-        {ARTICLES.slice(1).map(article => (
-          <ArticleCard key={article.id} article={article} onClick={(id) => navigate(`/article/${id}`)} />
-        ))}
+      <section className="flex flex-col gap-4">
+        <div className="px-5">
+          <h3 className="text-xl font-display font-bold italic border-b border-slate-100 dark:border-slate-800 pb-3">Matérias Recentes</h3>
+        </div>
+        <div className="px-3 flex flex-col gap-1">
+          {ARTICLES.slice(1).map(article => (
+            <ArticleCard key={article.id} article={article} onClick={(id) => navigate(`/article/${id}`)} />
+          ))}
+        </div>
       </section>
     </main>
   );
@@ -507,7 +550,7 @@ const ArticleDetail: React.FC = () => {
               <span>{article.date}</span>
             </div>
           </div>
-          
+
           <p className="text-lg leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line border-t border-slate-50 dark:border-slate-800 pt-6">
             {article.content}
           </p>
@@ -530,12 +573,12 @@ const Profile: React.FC = () => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-primary text-white p-6 rounded-[32px] flex flex-col gap-1 shadow-xl">
-           <p className="text-[10px] opacity-80 uppercase font-black tracking-widest">Saldo de Pontos</p>
-           <h3 className="text-3xl font-black">{stats.points}</h3>
+          <p className="text-[10px] opacity-80 uppercase font-black tracking-widest">Saldo de Pontos</p>
+          <h3 className="text-3xl font-black">{stats.points}</h3>
         </div>
         <div className="bg-yellow-500 text-slate-900 p-6 rounded-[32px] flex flex-col gap-1 shadow-xl">
-           <p className="text-[10px] opacity-80 uppercase font-black tracking-widest">Saldo FACETAS</p>
-           <h3 className="text-3xl font-black">{stats.facetas}</h3>
+          <p className="text-[10px] opacity-80 uppercase font-black tracking-widest">Saldo FACETAS</p>
+          <h3 className="text-3xl font-black">{stats.facetas}</h3>
         </div>
       </div>
     </main>
@@ -558,7 +601,7 @@ const Search: React.FC = () => {
   const [query, setQuery] = useState('');
   const [searchParams] = useSearchParams();
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  
+
   const catParam = searchParams.get('category');
   const navigate = useNavigate();
 
@@ -586,26 +629,26 @@ const Search: React.FC = () => {
   return (
     <div className="w-full max-w-2xl mx-auto p-4 flex flex-col gap-6">
       <div className="flex flex-col gap-4">
-        <input 
-          type="text" 
-          value={query} 
-          onChange={e => setQuery(e.target.value)} 
-          placeholder="Pesquisar notícias..." 
-          className="w-full p-4 rounded-3xl border-slate-200 dark:border-slate-800 dark:bg-slate-900 outline-none focus:ring-2 focus:ring-primary shadow-sm" 
+        <input
+          type="text"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Pesquisar notícias..."
+          className="w-full p-4 rounded-3xl border-slate-200 dark:border-slate-800 dark:bg-slate-900 outline-none focus:ring-2 focus:ring-primary shadow-sm"
         />
-        
+
         {catParam === 'Onde ir' && availableCities.length > 0 && (
           <div className="flex flex-col gap-2">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Filtrar por Cidade</span>
             <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
-              <button 
+              <button
                 onClick={() => setSelectedCity(null)}
                 className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider border transition-all shrink-0 ${!selectedCity ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700'}`}
               >
                 Todas
               </button>
               {availableCities.map(city => (
-                <button 
+                <button
                   key={city}
                   onClick={() => setSelectedCity(city)}
                   className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider border transition-all shrink-0 ${selectedCity === city ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700'}`}
@@ -622,8 +665,8 @@ const Search: React.FC = () => {
         {filtered.map(a => <ArticleCard key={a.id} article={a} onClick={id => navigate(`/article/${id}`)} />)}
         {filtered.length === 0 && (
           <div className="text-center py-20">
-             <span className="material-symbols-outlined text-4xl text-slate-200 mb-2">search_off</span>
-             <p className="text-slate-400 italic font-display">Nenhum resultado encontrado.</p>
+            <span className="material-symbols-outlined text-4xl text-slate-200 mb-2">search_off</span>
+            <p className="text-slate-400 italic font-display">Nenhum resultado encontrado.</p>
           </div>
         )}
       </div>
