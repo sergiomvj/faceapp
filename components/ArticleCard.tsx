@@ -40,19 +40,19 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
   if (variant === 'story') {
     return (
       <div 
-        className="group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer"
+        className="group relative aspect-[3/4] rounded-[24px] overflow-hidden cursor-pointer shadow-md transition-all active:scale-95"
         onClick={() => onClick(article.id)}
       >
         <div 
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" 
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" 
           style={{ backgroundImage: `url("${article.imageUrl}")` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 p-3 w-full">
-          <span className="text-[10px] font-bold text-primary uppercase bg-white/10 backdrop-blur-sm px-2 py-0.5 rounded mb-2 inline-block">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 p-3 w-full flex flex-col gap-1">
+          <span className="text-[8px] font-black text-white/80 uppercase tracking-widest px-2 py-0.5 bg-white/10 backdrop-blur-md rounded-full w-fit">
             {article.category}
           </span>
-          <h4 className="text-white font-bold leading-tight text-sm font-display italic">
+          <h4 className="text-white font-bold leading-tight text-xs font-display italic line-clamp-2">
             "{article.title}"
           </h4>
         </div>

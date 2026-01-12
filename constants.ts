@@ -15,6 +15,18 @@ export const ARTICLES: Article[] = [
     isFeatured: true
   },
   {
+    id: '10',
+    title: 'Millenia Mall: O paraíso das grifes em Orlando',
+    excerpt: 'Um guia completo para quem busca luxo e as melhores marcas internacionais na Florida.',
+    category: 'Onde ir',
+    author: 'Mariana Silva',
+    date: '28 Out 2023',
+    readingTime: '4 min de leitura',
+    imageUrl: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=600',
+    content: 'O Millenia Mall não é apenas um shopping, é uma experiência arquitetônica e de consumo...',
+    city: 'Orlando'
+  },
+  {
     id: '7',
     title: '5 Parques Naturais em Orlando que você precisa conhecer',
     excerpt: 'Fuja das filas dos parques temáticos e descubra as belezas naturais da Flórida Central.',
@@ -23,7 +35,7 @@ export const ARTICLES: Article[] = [
     date: '20 Out 2023',
     readingTime: '4 min de leitura',
     imageUrl: 'https://images.unsplash.com/photo-1596436889106-be35e843f974?q=80&w=600',
-    content: 'Orlando é mundialmente famosa pelos seus parques temáticos, mas a região esconde tesouros naturais que muitos turistas (e até residentes) desconhecem...',
+    content: 'Orlando é mundialmente famosa pelos seus parques temáticos, mas a região esconde tesouros naturais...',
     city: 'Orlando'
   },
   {
@@ -35,20 +47,20 @@ export const ARTICLES: Article[] = [
     date: '22 Out 2023',
     readingTime: '6 min de leitura',
     imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=600',
-    content: 'Miami é um caldeirão de culturas, e a brasileira tem um lugar de destaque especial, especialmente na gastronomia...',
+    content: 'Miami é um caldeirão de culturas, e a brasileira tem um lugar de destaque especial...',
     city: 'Miami'
   },
   {
     id: '9',
-    title: 'Compras em Orlando: Além dos Outlets famosos',
-    excerpt: 'Dicas de lojas locais e shoppings menos conhecidos com preços imbatíveis.',
+    title: 'Lincoln Road: O shopping a céu aberto de South Beach',
+    excerpt: 'Cultura, gastronomia e lojas exclusivas em um dos calçadões mais famosos do mundo.',
     category: 'Onde ir',
     author: 'Ana Silva',
     date: '25 Out 2023',
     readingTime: '5 min de leitura',
-    imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600',
-    content: 'Todo brasileiro que visita Orlando tem um roteiro de compras, mas você já pensou em explorar o que há além do básico?',
-    city: 'Orlando'
+    imageUrl: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600',
+    content: 'Caminhar pela Lincoln Road é sentir o pulsar de Miami Beach. Entre galerias de arte e lojas de departamento...',
+    city: 'Miami'
   },
   {
     id: '2',
@@ -59,7 +71,7 @@ export const ARTICLES: Article[] = [
     date: '12 Out 2023',
     readingTime: '4 min de leitura',
     imageUrl: 'https://images.unsplash.com/photo-1569974498991-d3c12a504f95?q=80&w=600',
-    content: 'Recentemente, o Departamento de Estado anunciou atualizações significativas nos critérios de elegibilidade para vistos de trabalho e turismo...'
+    content: 'Recentemente, o Departamento de Estado anunciou atualizações significativas nos critérios de elegibilidade...'
   },
   {
     id: '3',
@@ -70,7 +82,7 @@ export const ARTICLES: Article[] = [
     date: '10 Out 2023',
     readingTime: '3 min de leitura',
     imageUrl: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=600',
-    content: 'A celebração da brasilidade em solo americano nunca foi tão forte. O festival deste ano promete reunir mais de 20 mil pessoas...',
+    content: 'A celebração da brasilidade em solo americano nunca foi tão forte...',
     city: 'Orlando'
   },
   {
@@ -82,7 +94,7 @@ export const ARTICLES: Article[] = [
     date: '14 Out 2023',
     readingTime: '6 min de leitura',
     imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1000',
-    content: 'Morar fora do país é o sonho de muitos, mas a realidade da adaptação pode trazer desafios emocionais significativos.'
+    content: 'Morar fora do país é o sonho de muitos, mas a realidade da adaptação pode trazer desafios emocionais.'
   }
 ];
 
