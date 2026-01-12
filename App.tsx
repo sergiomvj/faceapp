@@ -10,6 +10,8 @@ import { Search, Profile } from './components/pages/UserProfile';
 import { FacebrasilClub } from './components/pages/FacebrasilClub';
 import { BalcaoUSA, BalcaoWelcome } from './components/pages/BalcaoUSA';
 import { MagazinesArchive } from './components/pages/MagazinesArchive';
+import { SempreAlerta } from './components/pages/SempreAlerta';
+import { BrVIP } from './components/pages/BrVIP';
 
 // Admin Components
 import { AdManager } from './components/admin/AdManager';
@@ -121,6 +123,8 @@ const Drawer: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, on
           <nav className="flex flex-col gap-1">
             <Link to="/" onClick={handleHomeClick} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3"><span className="material-symbols-outlined">home</span> Início</Link>
             <Link to="/news" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3"><span className="material-symbols-outlined">newspaper</span> News</Link>
+            <Link to="/brvip" onClick={onClose} className="py-3 px-4 rounded-2xl bg-amber-50 dark:bg-amber-900/10 text-amber-700 dark:text-amber-400 font-bold flex items-center gap-3"><span className="material-symbols-outlined filled">stars</span> BrVIP</Link>
+            <Link to="/sempre-alerta" onClick={onClose} className="py-3 px-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 font-bold flex items-center gap-3"><span className="material-symbols-outlined filled">emergency</span> Sempre Alerta</Link>
             <Link to="/agenda" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3 text-indigo-600"><span className="material-symbols-outlined filled">calendar_month</span> Agenda de Eventos</Link>
             <Link to="/balcao" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3 text-green-600"><span className="material-symbols-outlined filled">dashboard_customize</span> BalcãoUSA</Link>
             <Link to="/clube" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3 text-yellow-600"><span className="material-symbols-outlined filled">toll</span> Club de Vantagens</Link>
@@ -179,6 +183,8 @@ const App: React.FC = () => {
               <Route path="/balcao" element={<BalcaoUSA />} />
               <Route path="/balcao/welcome" element={<BalcaoWelcome />} />
               <Route path="/magazines" element={<MagazinesArchive />} />
+              <Route path="/sempre-alerta" element={<SempreAlerta />} />
+              <Route path="/brvip" element={<BrVIP />} />
 
               {/* Admin Routes */}
               <Route path="/admin/ads" element={<AdManager />} />

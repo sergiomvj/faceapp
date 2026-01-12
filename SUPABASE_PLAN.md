@@ -67,12 +67,38 @@ create table public.article_suggestions (
   created_at timestamp with time zone default now()
 );
 
+-- Sempre Alerta (Community Reports)
+create table public.community_reports (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users,
+  content text not null,
+  type text check (type in ('video', 'image', 'text')),
+  location text,
+  media_url text,
+  status text default 'pending', -- pending, verified, rejected, breaking
+  created_at timestamp with time zone default now()
+);
+
+-- BrVIP (Celebrities)
+create table public.celebrity_stories (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  role text,
+  image_url text not null,
+  content text not null,
+  excerpt text,
+  is_featured boolean default false,
+  created_at timestamp with time zone default now()
+);
+
 -- Habilitar Row Level Security
 alter table public.profiles enable row level security;
 alter table public.advertisements enable row level security;
 alter table public.external_api_keys enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 alter table public.article_suggestions enable row level security;
+alter table public.community_reports enable row level security;
+alter table public.celebrity_stories enable row level security;
 
 -- Políticas de Acesso Simplificadas (Admin Only for management tables)
 create policy "Public profiles are viewable by everyone." on public.profiles for select using (true);
@@ -85,6 +111,12 @@ create policy "Admins can manage external keys." on public.external_api_keys usi
 
 create policy "Anyone can subscribe to newsletter." on public.newsletter_subscribers for insert with check (true);
 create policy "Admins can manage newsletter." on public.newsletter_subscribers using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Reports are viewable by everyone." on public.community_reports for select using (true);
+create policy "Users can submit reports." on public.community_reports for insert with check (auth.uid() = user_id);
+
+create policy "Stories are viewable by everyone." on public.celebrity_stories for select using (true);
+create policy "Admins can manage stories." on public.celebrity_stories using (auth.jwt() ->> 'role' = 'admin');
 ```
 
 ## 2. Implementação no Frontend (Novos Módulos)
