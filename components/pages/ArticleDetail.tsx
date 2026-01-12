@@ -1,37 +1,62 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ARTICLES } from '../../constants';
-import { UserStats } from '../../types';
-
-const getUserStats = (): UserStats => {
-    const defaults: UserStats = { points: 200, facetas: 5, level: 'Bronze', articlesRead: [], lastCheckIn: '' };
-    return JSON.parse(localStorage.getItem('userStats') || JSON.stringify(defaults));
-};
-
-const saveUserStats = (stats: UserStats) => {
-    if (stats.points > 2000) stats.level = 'Diamante';
-    else if (stats.points > 1000) stats.level = 'Ouro';
-    else if (stats.points > 300) stats.level = 'Prata';
-    else stats.level = 'Bronze';
-    localStorage.setItem('userStats', JSON.stringify(stats));
-};
+import { Article } from '../../types';
+import { supabase } from '../../services/supabaseClient';
+import { useAuth } from '../../context/AuthContext';
 
 export const ArticleDetail: React.FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const article = useMemo(() => ARTICLES.find(a => a.id === id), [id]);
+    const { user } = useAuth();
+    const [article, setArticle] = useState<Article | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (id) {
-            const stats = getUserStats();
-            if (!stats.articlesRead.includes(id)) {
-                const newStats = { ...stats, articlesRead: [...stats.articlesRead, id], points: stats.points + 10 };
-                saveUserStats(newStats);
+        const fetchArticle = async () => {
+            // First check mock data
+            const mock = ARTICLES.find(a => a.id === id);
+            if (mock) {
+                setArticle(mock);
+                setLoading(false);
+            } else {
+                // Fetch from Supabase
+                const { data } = await supabase
+                    .from('articles')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+
+                if (data) {
+                    setArticle({
+                        ...data,
+                        isFeatured: data.is_featured,
+                        readingTime: data.reading_time,
+                        imageUrl: data.image_url
+                    } as Article);
+                }
+                setLoading(false);
             }
-        }
+        };
+
+        fetchArticle();
     }, [id]);
 
-    if (!article) return null;
+    useEffect(() => {
+        const syncPoints = async () => {
+            if (id && user) {
+                // Simple logic: add 10 points if not read (we can improve this later with a dedicated table)
+                const { data: profile } = await supabase.from('profiles').select('points').eq('id', user.id).single();
+                if (profile) {
+                    await supabase.from('profiles').update({ points: profile.points + 10 }).eq('id', user.id);
+                }
+            }
+        };
+        if (article) syncPoints();
+    }, [article, user, id]);
+
+    if (loading) return <div className="p-20 text-center animate-pulse">Carregando matéria...</div>;
+    if (!article) return <div className="p-20 text-center">Matéria não encontrada.</div>;
 
     return (
         <main className="w-full max-w-2xl mx-auto pb-32 animate-in fade-in duration-700">

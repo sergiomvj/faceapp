@@ -57,6 +57,46 @@ create table public.newsletter_subscribers (
   created_at timestamp with time zone default now()
 );
 
+-- Artigos Principal
+create table public.articles (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  excerpt text,
+  content text,
+  category text,
+  author text,
+  reading_time text,
+  image_url text,
+  is_featured boolean default false,
+  city text,
+  created_at timestamp with time zone default now()
+);
+
+-- Revistas (Banca Digital)
+create table public.magazines (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  month text,
+  year text,
+  image_url text,
+  cover_url text,
+  pdf_url text,
+  created_at timestamp with time zone default now()
+);
+
+-- Eventos da Comunidade
+create table public.events (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  description text,
+  date date,
+  time text,
+  location text,
+  organizer text,
+  category text,
+  created_at timestamp with time zone default now()
+);
+
 -- Sugestão de Pautas (Hot Topics)
 create table public.article_suggestions (
   id uuid default gen_random_uuid() primary key,
@@ -99,6 +139,9 @@ alter table public.newsletter_subscribers enable row level security;
 alter table public.article_suggestions enable row level security;
 alter table public.community_reports enable row level security;
 alter table public.celebrity_stories enable row level security;
+alter table public.articles enable row level security;
+alter table public.magazines enable row level security;
+alter table public.events enable row level security;
 
 -- Políticas de Acesso Simplificadas (Admin Only for management tables)
 create policy "Public profiles are viewable by everyone." on public.profiles for select using (true);
@@ -117,6 +160,15 @@ create policy "Users can submit reports." on public.community_reports for insert
 
 create policy "Stories are viewable by everyone." on public.celebrity_stories for select using (true);
 create policy "Admins can manage stories." on public.celebrity_stories using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Articles are viewable by everyone." on public.articles for select using (true);
+create policy "Admins can manage articles." on public.articles using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Magazines are viewable by everyone." on public.magazines for select using (true);
+create policy "Admins can manage magazines." on public.magazines using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Events are viewable by everyone." on public.events for select using (true);
+create policy "Admins can manage events." on public.events using (auth.jwt() ->> 'role' = 'admin');
 ```
 
 ## 2. Implementação no Frontend (Novos Módulos)

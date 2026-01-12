@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MAGAZINES as INITIAL_MAGAZINES } from '../../constants';
 import { MagazineCard } from '../MagazineCard';
 import { MagazineIssue } from '../../types';
-
-const getMagazines = (): MagazineIssue[] => {
-    const localMagazines = JSON.parse(localStorage.getItem('customMagazines') || '[]');
-    return [...INITIAL_MAGAZINES, ...localMagazines];
-};
+import { supabase } from '../../services/supabaseClient';
 
 export const MagazinesArchive: React.FC = () => {
-    const magazines = getMagazines();
+    const [magazines, setMagazines] = useState<MagazineIssue[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchMagazines();
+    }, []);
+
+    const fetchMagazines = async () => {
+        const { data } = await supabase
+            .from('magazines')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (data && data.length > 0) {
+            setMagazines(data as any);
+        } else {
+            setMagazines(INITIAL_MAGAZINES);
+        }
+        setLoading(false);
+    };
+
+    if (loading) return <div className="p-20 text-center animate-pulse">Carregando banca...</div>;
+
     return (
         <main className="w-full max-w-2xl mx-auto p-4 pb-24 flex flex-col gap-6">
             <h2 className="text-3xl font-display font-bold italic">Banca Digital</h2>

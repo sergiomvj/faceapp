@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { fetchAITopicSuggestions, TopicSuggestion } from '../../services/aiService';
 
-interface Topic {
+interface Topic extends TopicSuggestion {
     id: string;
-    topic: string;
-    source: string;
-    score: number;
-    aiSuggestion: string;
 }
 
 export const TopicGenerator: React.FC = () => {
@@ -16,20 +13,18 @@ export const TopicGenerator: React.FC = () => {
         { id: '2', topic: 'Preço de Imóveis em Orlando', source: 'Zillow Insight', score: 85, aiSuggestion: 'As 5 áreas subvalorizadas em Central Florida para investir agora.' },
     ]);
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
         setIsGenerating(true);
-        // Simulation of API call to Google Trends / Gemini
-        setTimeout(() => {
-            const newTopic: Topic = {
-                id: Date.now().toString(),
-                topic: 'Crise dos Aluguéis em Miami',
-                source: 'Twitter Trends (Miami)',
-                score: 92,
-                aiSuggestion: 'Guia de sobrevivência: Alternativas em Broward para quem foge dos preços de Brickell.'
-            };
-            setTopics([newTopic, ...topics]);
-            setIsGenerating(false);
-        }, 1500);
+        const newSuggestions = await fetchAITopicSuggestions();
+
+        if (newSuggestions.length > 0) {
+            const formatted = newSuggestions.map(s => ({
+                ...s,
+                id: Math.random().toString(36).substr(2, 9)
+            }));
+            setTopics([...formatted, ...topics]);
+        }
+        setIsGenerating(false);
     };
 
     return (

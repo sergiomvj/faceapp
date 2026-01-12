@@ -15,40 +15,47 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check active sessions and sets the user
+        const fetchProfile = async (id: string, email?: string) => {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', id)
+                .single();
+
+            if (error && error.code === 'PGRST116') {
+                // Profile doesn't exist, create it
+                const newProfile = {
+                    id,
+                    email,
+                    username: email?.split('@')[0],
+                    points: 200,
+                    facetas: 5,
+                };
+                const { data: created } = await supabase.from('profiles').insert(newProfile).select().single();
+                if (created) setUser(created as any);
+            } else if (data) {
+                setUser(data as any);
+            }
+            setLoading(false);
+        };
+
+        // Check active sessions
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                // Here we would fetch the profile from 'profiles' table
-                // For now, we mock the profile mapping
-                setUser({
-                    id: session.user.id,
-                    email: session.user.email,
-                    points: 200,
-                    facetas: 5,
-                    level: 'Bronze',
-                    articlesRead: [],
-                    lastCheckIn: ''
-                });
+                fetchProfile(session.user.id, session.user.email);
+            } else {
+                setLoading(false);
             }
-            setLoading(false);
         });
 
-        // Listen for changes on auth state
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        // Listen for changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (session) {
-                setUser({
-                    id: session.user.id,
-                    email: session.user.email,
-                    points: 200,
-                    facetas: 5,
-                    level: 'Bronze',
-                    articlesRead: [],
-                    lastCheckIn: ''
-                });
+                fetchProfile(session.user.id, session.user.email);
             } else {
                 setUser(null);
+                setLoading(false);
             }
-            setLoading(false);
         });
 
         return () => subscription.unsubscribe();

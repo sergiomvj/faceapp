@@ -1,12 +1,43 @@
-import React, { useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArticleCard } from '../ArticleCard';
-import { ARTICLES } from '../../constants';
+import { ARTICLES as INITIAL_ARTICLES } from '../../constants';
+import { supabase } from '../../services/supabaseClient';
+import { Article } from '../../types';
 
 export const Home: React.FC = () => {
     const navigate = useNavigate();
-    const featuredArticle = ARTICLES.find(a => a.isFeatured) || ARTICLES[0];
-    const quickHits = useMemo(() => ARTICLES.filter(a => !a.isFeatured).slice(0, 6), []);
+    const [articles, setArticles] = useState<Article[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchArticles();
+    }, []);
+
+    const fetchArticles = async () => {
+        const { data } = await supabase
+            .from('articles')
+            .select('*')
+            .order('is_featured', { ascending: false })
+            .order('created_at', { ascending: false });
+
+        if (data && data.length > 0) {
+            setArticles(data.map(a => ({
+                ...a,
+                isFeatured: a.is_featured,
+                readingTime: a.reading_time,
+                imageUrl: a.image_url
+            })) as Article[]);
+        } else {
+            setArticles(INITIAL_ARTICLES);
+        }
+        setLoading(false);
+    };
+
+    const featuredArticle = articles.find(a => a.isFeatured) || articles[0];
+    const quickHits = articles.filter(a => !a.isFeatured).slice(0, 6);
+
+    if (loading) return <div className="p-20 text-center animate-pulse">Carregando portal...</div>;
 
     return (
         <main className="w-full max-w-2xl mx-auto flex flex-col gap-8 pb-32 animate-in fade-in duration-700">
@@ -91,7 +122,7 @@ export const Home: React.FC = () => {
                     <h3 className="text-xl font-display font-bold italic border-b border-slate-100 dark:border-slate-800 pb-3">Matérias Recentes</h3>
                 </div>
                 <div className="px-3 flex flex-col gap-1">
-                    {ARTICLES.slice(1).map(article => (
+                    {articles.filter(a => a.id !== featuredArticle?.id).map(article => (
                         <ArticleCard key={article.id} article={article} onClick={(id) => navigate(`/article/${id}`)} />
                     ))}
                 </div>
