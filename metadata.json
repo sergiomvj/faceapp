@@ -1,0 +1,7 @@
+{
+  "name": "Facebrasil - Portal da Comunidade",
+  "description": "Um portal moderno e elegante dedicado à comunidade brasileira no exterior, com notícias, guias de imigração, cultura e banca digital.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
