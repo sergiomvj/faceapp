@@ -4,6 +4,7 @@ import { ArticleCard } from '../ArticleCard';
 import { ARTICLES as INITIAL_ARTICLES } from '../../constants';
 import { supabase } from '../../services/supabaseClient';
 import { Article } from '../../types';
+import { MonetizaiAd } from '../MonetizaiAd';
 
 export const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -57,6 +58,10 @@ export const Home: React.FC = () => {
                         </div>
                     ))}
                 </div>
+            </section>
+
+            <section className="px-5">
+                <MonetizaiAd zoneId="home-top" className="h-60" />
             </section>
 
             <section className="px-4 grid grid-cols-2 gap-4">

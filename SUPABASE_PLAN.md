@@ -57,18 +57,49 @@ create table public.newsletter_subscribers (
   created_at timestamp with time zone default now()
 );
 
--- Artigos Principal
+-- Categorias
+create table public.categories (
+  id uuid default gen_random_uuid() primary key,
+  name text not null unique,
+  slug text not null unique,
+  created_at timestamp with time zone default now()
+);
+
+-- Autores
+create table public.authors (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  role text,
+  bio text,
+  avatar_url text,
+  created_at timestamp with time zone default now()
+);
+
+-- Artigos Principal (Atualizado)
 create table public.articles (
   id uuid default gen_random_uuid() primary key,
   title text not null,
   excerpt text,
   content text,
-  category text,
-  author text,
+  category_id uuid references public.categories,
+  author_id uuid references public.authors,
   reading_time text,
   image_url text,
   is_featured boolean default false,
   city text,
+  created_at timestamp with time zone default now()
+);
+
+-- Fila de Espera de Artigos (Terceirização/Externo)
+create table public.pending_articles (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  content text not null,
+  author_name text,
+  category_name text,
+  image_url text,
+  status text default 'pending', -- pending, approved, rejected
+  external_source text, -- identifica qual API Key enviou
   created_at timestamp with time zone default now()
 );
 
@@ -151,6 +182,9 @@ alter table public.article_suggestions enable row level security;
 alter table public.community_reports enable row level security;
 alter table public.celebrity_stories enable row level security;
 alter table public.articles enable row level security;
+alter table public.categories enable row level security;
+alter table public.authors enable row level security;
+alter table public.pending_articles enable row level security;
 alter table public.magazines enable row level security;
 alter table public.events enable row level security;
 alter table public.balcao_posts enable row level security;
@@ -175,6 +209,13 @@ create policy "Admins can manage stories." on public.celebrity_stories using (au
 
 create policy "Articles are viewable by everyone." on public.articles for select using (true);
 create policy "Admins can manage articles." on public.articles using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Categories are viewable by everyone." on public.categories for select using (true);
+create policy "Authors are viewable by everyone." on public.authors for select using (true);
+create policy "Admins can manage metadata." on public.categories using (auth.jwt() ->> 'role' = 'admin');
+create policy "Admins can manage authors." on public.authors using (auth.jwt() ->> 'role' = 'admin');
+
+create policy "Pending articles are managed by admins." on public.pending_articles using (auth.jwt() ->> 'role' = 'admin');
 
 create policy "Magazines are viewable by everyone." on public.magazines for select using (true);
 create policy "Admins can manage magazines." on public.magazines using (auth.jwt() ->> 'role' = 'admin');

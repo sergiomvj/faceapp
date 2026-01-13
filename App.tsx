@@ -15,9 +15,11 @@ import { BrVIP } from './components/pages/BrVIP';
 
 // Admin Components
 import { AdManager } from './components/admin/AdManager';
+import { ContentManager } from './components/admin/ContentManager';
 import { ExternalCreatorAPI } from './components/admin/ExternalCreatorAPI';
 import { NewsletterManager } from './components/admin/NewsletterManager';
 import { TopicGenerator } from './components/admin/TopicGenerator';
+import { MonetizaiAd } from './components/MonetizaiAd';
 
 // --- Components ---
 
@@ -131,6 +133,9 @@ const Drawer: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, on
 
             <div className="my-4 border-t border-slate-100 dark:border-slate-800 pt-4">
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4 mb-2 block">Administração</span>
+              <Link to="/admin/content" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3 text-slate-900 dark:text-white group transition-colors">
+                <span className="material-symbols-outlined group-hover:text-primary transition-colors">description</span> Gestão de Conteúdo
+              </Link>
               <Link to="/admin/ads" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3 text-slate-600"><span className="material-symbols-outlined">ads_click</span> Gestão de Ads</Link>
               <Link to="/admin/api" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3 text-purple-600"><span className="material-symbols-outlined">api</span> API External</Link>
               <Link to="/admin/newsletter" onClick={onClose} className="py-3 px-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center gap-3 text-sky-600"><span className="material-symbols-outlined">mail</span> Newsletter</Link>
@@ -187,6 +192,7 @@ const App: React.FC = () => {
               <Route path="/brvip" element={<BrVIP />} />
 
               {/* Admin Routes */}
+              <Route path="/admin/content" element={<ContentManager />} />
               <Route path="/admin/ads" element={<AdManager />} />
               <Route path="/admin/api" element={<ExternalCreatorAPI />} />
               <Route path="/admin/newsletter" element={<NewsletterManager />} />
