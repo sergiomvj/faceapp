@@ -193,6 +193,15 @@ const App: React.FC = () => {
               <Route path="/admin/topics" element={<TopicGenerator />} />
             </Routes>
           </div>
+          <footer className="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-12 px-4 mb-20 text-center flex flex-col gap-4">
+            <Logo />
+            <p className="text-xs text-slate-400 font-medium">© {new Date().getFullYear()} Facebrasil. Todos os direitos reservados.</p>
+            <div className="flex justify-center gap-6">
+              <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary">Termos de Uso</a>
+              <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary">Privacidade</a>
+              <a href="#" className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary">Contato</a>
+            </div>
+          </footer>
           <BottomNav />
         </div>
       </HashRouter>
