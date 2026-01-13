@@ -14,6 +14,10 @@
     <meta name="author" content="Facebrasil">
     <link rel="canonical" href="https://facebrasil.app" />
 
+    <!-- Security Headers (CSP) -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://hldognqfadpcznvgtoye.supabase.co; connect-src 'self' https://hldognqfadpcznvgtoye.supabase.co https://openrouter.ai;">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://facebrasil.app">
@@ -29,9 +33,6 @@
         content="Conectando brasileiros nos EUA. Notícias, cultura, negócios e muito mais.">
     <meta property="twitter:image" content="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
-
     <!-- Google Fonts: Inter, Newsreader and Noto Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,54 +44,9 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" />
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#137fec',
-                        secondary: '#617589',
-                        background: {
-                            light: '#f6f7f8',
-                            dark: '#101922'
-                        },
-                        surface: {
-                            light: '#ffffff',
-                            dark: '#1c242d'
-                        }
-                    },
-                    fontFamily: {
-                        display: ['Newsreader', 'serif'],
-                        sans: ['Inter', 'Noto Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        .material-symbols-outlined.filled {
-            font-variation-settings: 'FILL' 1;
-        }
-
-        /* Custom scrollbar hiding */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
+<body>
     <div id="root"></div>
     <!-- Script entry point for Vite -->
     <script type="module" src="/index.tsx"></script>
