@@ -1,5 +1,16 @@
 @import "tailwindcss";
-@config "./tailwind.config.js";
+
+@theme {
+    --color-primary: #137fec;
+    --color-secondary: #617589;
+    --color-background-light: #f6f7f8;
+    --color-background-dark: #101922;
+    --color-surface-light: #ffffff;
+    --color-surface-dark: #1c242d;
+
+    --font-display: "Newsreader", serif;
+    --font-sans: "Inter", "Noto Sans", sans-serif;
+}
 
 @layer base {
     .material-symbols-outlined {
